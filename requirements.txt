@@ -1,0 +1,14 @@
+mujoco-py==2.0.2.10
+metaworld @ git+https://github.com/rlworkgroup/metaworld.git@a0009ed9a208ff9864a5c1368c04c273bb20dd06
+torch==1.10.1tqdm
+gym
+numpy
+stable_baselines3==1.4.0
+jax==0.3.4
+jaxlib==0.3.2
+flax==0.4.0
+tensorflow_probability
+optax==0.1.1
+tensorboard==1.15.0
+protobuf==3.19.0
+torchvision==0.11.2

@@ -1,0 +1,15 @@
+import os
+
+from offline_baselines_jax.common.utils import get_system_info
+from offline_baselines_jax.sac import SAC
+from offline_baselines_jax.mtsac import MTSAC
+from offline_baselines_jax.cql import CQL
+from offline_baselines_jax.mtcql import MTCQL
+from offline_baselines_jax.td3 import TD3
+from offline_baselines_jax.soft_modularization import SoftModularization
+from offline_baselines_jax.PCGrad import PCGrad
+
+# Read version from file
+version_file = os.path.join(os.path.dirname(__file__), "version.txt")
+with open(version_file, "r") as file_handler:
+    __version__ = file_handler.read().strip()
