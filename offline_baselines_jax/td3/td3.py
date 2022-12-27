@@ -83,7 +83,8 @@ def td3_actor_update_bc(actor: Model, critic: Model, replay_data:ReplayBufferSam
 
 
 def target_update(model: Model, target: Model, tau: float) -> Model:
-    new_target_params = jax.tree_multimap(lambda p, tp: p * tau + tp * (1 - tau), model.params, target.params)
+    new_target_params = jax.tree_map(lambda p, tp: p * tau + tp * (1 - tau), model.params, target.params)
+    # tree_map can be jax.tree_multimap in in 0.3.x < 0.3.5 version 
     return target.replace(params=new_target_params)
 
 
@@ -329,7 +330,7 @@ class TD3(OffPolicyAlgorithm):
             log_interval=log_interval,
             eval_env=eval_env,
             eval_freq=eval_freq,
-            n_eval_episodes=n_eval_episodes,
+            n_eval_episodes=n_eval_episodes, 
             tb_log_name=tb_log_name,
             eval_log_path=eval_log_path,
             reset_num_timesteps=reset_num_timesteps,

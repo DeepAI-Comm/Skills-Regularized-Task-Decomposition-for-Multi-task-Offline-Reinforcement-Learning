@@ -22,10 +22,10 @@ if __name__ == '__main__':
     parser.add_argument('--num-batch', type=int, default=5)
     parser.add_argument('--task-name', type=str, default='Multitask')
     parser.add_argument('--buffer-size', type=int, default=2_000_000)
-    parser.add_argument('--timesteps', type=int, default=10)
+    parser.add_argument('--timesteps', type=int, default=10) #1_000_000
     parser.add_argument('--latent-dim', type=int, default=4)
     parser.add_argument('--seed', type=int, default=777)
-    parser.add_argument('--epochs', type=int, default=5)
+    parser.add_argument('--epochs', type=int, default=1) #200
     parser.add_argument('--mode', type=str, default='replay') #replay
     parser.add_argument('--path', type=str, default=os.getcwd() + '/results')
     parser.add_argument('--data-augmentation', action='store_true')
@@ -39,9 +39,9 @@ if __name__ == '__main__':
     random.seed(seed)
     torch.manual_seed(seed)
 
-    # policy_quality = sampling_policy[args.mode]
-    # np.random.shuffle(policy_quality)
-    policy_quality = ['offline_data_random']*10
+    policy_quality = sampling_policy[args.mode]
+    np.random.shuffle(policy_quality)
+    # policy_quality = ['offline_data_random']*10
     num_data = default_dynamic_num_data
 
     reward_path = None

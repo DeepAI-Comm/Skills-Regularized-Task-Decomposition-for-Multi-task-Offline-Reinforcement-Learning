@@ -18,7 +18,6 @@ sampling_policy = {
     'airsim_low': ['medium_replay'] * 3 + ['replay'] * 2 + ['medium_expert'],
     'airsim_medium': ['medium_replay'] * 2 + ['replay'] * 2 + ['medium_expert'] * 2,
     'airsim_high': ['medium_replay'] + ['replay'] * 2 + ['medium_expert'] * 3,
-
 }
 
 
