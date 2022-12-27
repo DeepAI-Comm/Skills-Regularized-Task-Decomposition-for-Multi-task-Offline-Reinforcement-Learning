@@ -56,13 +56,13 @@ def GenerateOfflineMultiTaskPolicy(task_name:str, timesteps: int, buffer_size:in
         NotImplementedError()
 
     offline_datasets = OfflineDatasets()
-    offline_datasets.load('./single_task/offline_data/{}/{}.pkl'.format(task_name_list[0], policy_quality[0]))
+    offline_datasets.load(os.getcwd() + '/single_task/offline_data/{}/{}.pkl'.format(task_name_list[0], policy_quality[0]))
 
     replay_buffer = None
 
     for idx, t_n in enumerate(task_name_list):
         offline_datasets = OfflineDatasets()
-        offline_datasets.load('./single_task/offline_data/{}/{}.pkl'.format(t_n, policy_quality[idx]))
+        offline_datasets.load(os.getcwd() + '/single_task/offline_data/{}/{}.pkl'.format(t_n, policy_quality[idx]))
         offline_datasets = offline_datasets.sample(num_data_dict[policy_quality[idx]])
         replay_buffer = offline_datasets.get_task_ID_replay_buffer(5000000, idx, len(task_name_list), replay_buffer)
 
@@ -94,16 +94,16 @@ def GenerateOfflineMultiTaskPolicy(task_name:str, timesteps: int, buffer_size:in
         policy_kwargs = dict(net_arch=[256, 256, 256], activation_fn=nn.relu)
 
     checkpoint_callback = CheckpointCallback(save_freq=100000,
-                                             save_path='./results/models/TID{}_seed_{}_'.format(algos, seed) + mode,
+                                             save_path=os.getcwd() + '/results/models/TID{}_seed_{}_'.format(algos, seed) + mode,
                                              name_prefix='model')
 
     model = model_algo(policy, train_env, seed=seed, verbose=1, batch_size=1280, buffer_size=buffer_size,
                   train_freq=1, policy_kwargs=policy_kwargs, without_exploration=True,  learning_rate=1e-4, gradient_steps=1000,
-                  tensorboard_log='./results/tensorboard/TID{}_seed_{}_'.format(algos, seed) + mode, **kwargs)
+                  tensorboard_log=os.getcwd() + '/results/tensorboard/TID{}_seed_{}_'.format(algos, seed) + mode, **kwargs)
 
     model.replay_buffer = replay_buffer
     model.learn(total_timesteps=timesteps, callback=checkpoint_callback, eval_freq=200000, log_interval=1000,
-                n_eval_episodes=500, eval_log_path='./results/models/TID{}_seed_{}_'.format(algos, seed) + mode, eval_env=test_env, tb_log_name='exp')
+                n_eval_episodes=500, eval_log_path=os.getcwd() + '/results/models/TID{}_seed_{}_'.format(algos, seed) + mode, eval_env=test_env, tb_log_name='exp')
 
 
 if __name__ == '__main__':

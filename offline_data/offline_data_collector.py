@@ -724,14 +724,14 @@ if __name__ == '__main__':
     random.seed(seed)
 
     parser = argparse.ArgumentParser()
-    parser.add_argument('--task-name', type=str, default=None)
+    parser.add_argument('--task-name', type=str, default='mt10')
     parser.add_argument('--model-save-freq', type=int, default=50_000)
     parser.add_argument('--num-model', type=int, default=40)
     parser.add_argument('--episodes', type=int, default=500)
     parser.add_argument('--max-timesteps', type=int, default=2_000_000)
     parser.add_argument('--path', type=str, default=os.getcwd() + '/single_task/offline_data')
     parser.add_argument('--policy-path', type=str, default=os.getcwd() + '/single_task')
-    parser.add_argument('--random-policy', action='store_true', default=True)
+    parser.add_argument('--random-policy', action='store_true', default=False)
     args = parser.parse_args()
 
     if not os.path.isdir(args.path):

@@ -50,7 +50,7 @@ def GenerateOfflineMultiTaskPolicy(task_embeddings_model:str, model_path:str, ta
     random.seed(seed)
 
     offline_datasets = OfflineDatasets()
-    offline_datasets.load('./single_task/offline_data/{}/{}.pkl'.format(task_name_list[0], policy_quality[0]))
+    offline_datasets.load(os.getcwd() + '/single_task/offline_data/{}/{}.pkl'.format(task_name_list[0], policy_quality[0]))
     latents = np.zeros((latent_dim, ))
     key = jax.random.PRNGKey(seed)
     AE = True
@@ -100,7 +100,7 @@ def GenerateOfflineMultiTaskPolicy(task_embeddings_model:str, model_path:str, ta
     offline_datasets = OfflineDatasets()
     for idx, t_n in enumerate(task_name_list):
         _offline_datasets = OfflineDatasets()
-        _offline_datasets.load('./single_task/offline_data/{}/{}.pkl'.format(t_n, policy_quality[idx]))
+        _offline_datasets.load(os.getcwd() + '/single_task/offline_data/{}/{}.pkl'.format(t_n, policy_quality[idx]))
         _offline_datasets = _offline_datasets.sample(num_data_dict[policy_quality[idx]])
         offline_datasets.extend(_offline_datasets)
 
@@ -157,16 +157,17 @@ if __name__ == '__main__':
     parser.add_argument('--task-name', type=str, default='Multitask')
     parser.add_argument('--buffer-size', type=int, default=2_000_000)
     parser.add_argument('--timesteps', type=int, default=1_000_000)
-    parser.add_argument('--path', type=str, default='./results')
+    parser.add_argument('--path', type=str, default=os.getcwd() + '/results')
     parser.add_argument('--mode', type=str, default='replay_50')
     parser.add_argument('--n-steps', type=int, default=4)
     parser.add_argument('--seed', type=int, default=777)
     parser.add_argument('--num-data', type=str, default='static')
     args = parser.parse_args()
 
+    # policy_quality = sampling_policy[args.mode]
+    # np.random.shuffle(policy_quality)
 
-    policy_quality = sampling_policy[args.mode]
-    np.random.shuffle(policy_quality)
+    policy_quality = ['random']*10
 
     GenerateOfflineMultiTaskPolicy(task_embeddings_model=args.model, model_path=args.model_path, seed=args.seed, algos=args.algos,
                                    task_name=args.task_name, timesteps=args.timesteps, path=args.path,
